@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "ai-data-pipeline"
+version = "0.1.0"
+description = "Natural-language to data pipeline generator"
+authors = ["Your Name <you@example.com>"]
+
+# ← This must be *here*, not under dependencies:
+packages = [
+  { include = "nlpipeline", from = "src" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+langchain = "^0.0.324"
+openai = "^0.28.0"
+pydantic = "^2.0"
+sqlalchemy = "^2.0"
+psycopg2-binary = "^2.9"
+streamlit = "^1.25"
+jinja2 = "^3.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2"
+ruff = "^0.0"
+
+[tool.poetry.scripts]
+nlpipeline = "nlpipeline.cli:main"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

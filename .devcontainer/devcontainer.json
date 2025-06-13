@@ -1,0 +1,17 @@
+{
+  "name": "AI Data Pipeline Devcontainer",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "workspaceFolder": "/workspace",
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "extensions": [
+    "ms-python.python",
+    "ms-azuretools.vscode-docker"
+  ],
+  "forwardPorts": [8080, 8081, 8082],
+  "postCreateCommand": "pip install poetry && poetry install"
+}

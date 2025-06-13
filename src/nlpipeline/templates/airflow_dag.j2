@@ -1,0 +1,26 @@
+from airflow import DAG
+from airflow.operators.python import PythonOperator
+from datetime import datetime
+
+def task_{{ loop.index }}(**kwargs):
+    # implement {{ step.name }}
+    pass
+
+with DAG(
+    dag_id="{{ spec.viz.params.dag_id or 'generated_pipeline' }}",
+    start_date=datetime(2025, 1, 1),
+    schedule_interval="{{ spec.viz.params.schedule or '@daily' }}",
+    catchup=False,
+) as dag:
+{% for step in spec.sources + spec.transforms + [spec.load, spec.viz] %}
+    {{ step.name }} = PythonOperator(
+        task_id="{{ step.name }}",
+        python_callable=task_{{ loop.index }},
+        op_kwargs={{ step.params }},
+    )
+
+{% if not loop.first -%}
+    {{ prev_name }} >> {{ step.name }}
+{% endif -%}
+{% set prev_name = step.name %}
+{% endfor %}
